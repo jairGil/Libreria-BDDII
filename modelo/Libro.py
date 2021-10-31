@@ -1,12 +1,14 @@
+from Autor import Autor
+from Categoria import Categoria
 class Libro:
     ISBN:str
-    personaID:int
+    personaID:Autor
     editorialNombre:str
     año:int
     titulo:str
     precio:int
-    categoriaID:int
-    def __init__(self,ISBN,personaID,editorialNombre,año,titulo,precio,categoriaID) -> None:
+    categoriaID:categoriaID
+    def __init__(self,ISBN:set,personaID:Autor,editorialNombre,año,titulo,precio,categoriaID:Categoria) -> None:
         self.ISBN = ISBN
         self.personaID = personaID
         self.editorialNombre = editorialNombre
