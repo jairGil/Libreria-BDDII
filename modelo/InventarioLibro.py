@@ -7,5 +7,3 @@ class InventarioLibro:
         self.libroISBN = libroISBN
         self.cantidad = cantidad
 
-lib = InventarioLibro(1,"Nombre Editorial",2000)
-print(lib.libreriaId)

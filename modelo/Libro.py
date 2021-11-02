@@ -15,5 +15,4 @@ class Libro:
         self.precio = precio
         self.categoriaID = categoriaID
 
-lib = Libro("123",1,"Nombre Editorial",2000,"Titulo",150.99,5)
-print(lib.ISBN)
+

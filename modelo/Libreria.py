@@ -10,5 +10,3 @@ class Libreria:
         self.telefono = telefono
         self.personaId = personaId
 
-lib = Libreria(1,2000,"7455464564",5)
-print(lib.libreriaId)
