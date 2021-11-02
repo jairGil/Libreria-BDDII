@@ -2,7 +2,7 @@ from Autor import Autor
 from Categoria import Categoria
 class Libro:
     ISBN:str
-    personaID:Autor
+    personaID:int
     editorialNombre:str
     año:int
     titulo:str
