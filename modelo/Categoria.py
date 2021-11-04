@@ -1,6 +1,6 @@
 class Categoria:
-    idCategoria:int
+    categoria_ID:int
     descripcion:str
-    def __init__(self,idCategoria:int,descripcion:str) -> None:
-        self.idCategoria = idCategoria
+    def __init__(self,categoria_ID:int,descripcion:str) -> None:
+        self.idCategoria = categoria_ID
         self.descripcion = descripcion 

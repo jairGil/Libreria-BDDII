@@ -1,14 +1,15 @@
 class Libreria:
     libreriaId:int
-    direccionId:int
-    RFC:str
     telefono_libreria:str
+    RFC:str
+    CP: int
+    direccion:str
     
-
-    def __init__(self,libreriaId:int,direccionId:int,RFC:str,telefono:str) -> None:
+    def __init__(self,libreriaId:int,telefono_libreria:str,RFC:str,cp:int,direccion:str) -> None:
         self.libreriaId = libreriaId
-        self.direccionId = direccionId
+        self.telefono_libreria = telefono_libreria
         self.RFC = RFC
-        self.telefono_libreria = telefono
+        self.CP = cp
+        self.direccion =direccion
         
 
