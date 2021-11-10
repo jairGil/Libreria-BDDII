@@ -1,0 +1,238 @@
+
+
+CREATE SCHEMA libreria;
+
+
+CREATE TABLE IF NOT EXISTS libreria.Categoria
+(
+    categoria_id integer,
+    nombre_categoria character varying(50) NOT NULL,
+    CONSTRAINT pk_categoria PRIMARY KEY (categoria_id)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Pais
+(
+    pais_id integer,
+    nombre_pais character varying(50) NOT NULL,
+    CONSTRAINT pk_pais PRIMARY KEY (pais_id)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Ciudad
+(
+    ciudad_id integer,
+    nombre_ciudad character varying(50) NOT NULL,
+    pais_id integer NOT NULL,
+    CONSTRAINT pk_ciudad PRIMARY KEY (ciudad_id),
+    CONSTRAINT fk_ciudad_pais FOREIGN KEY (pais_id)
+        REFERENCES libreria.Pais (pais_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Municipio
+(
+    CP numeric(5),
+    nombre_municipio character varying(50) NOT NULL,
+    ciudad_id integer NOT NULL,
+    CONSTRAINT pk_municipio PRIMARY KEY (CP),
+    CONSTRAINT fk_municipio_ciudad FOREIGN KEY (ciudad_id)
+        REFERENCES libreria.Ciudad (ciudad_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Persona
+(
+    RFC character varying(13),
+    nombre_persona character varying(50) NOT NULL,
+    apellido_paterno character varying(50) NOT NULL,
+    apellido_materno character varying(50) NOT NULL,
+    CP numeric(5) NOT NULL,
+    direccion character varying(255),
+    CONSTRAINT pk_persona PRIMARY KEY (RFC),
+    CONSTRAINT fk_persona_municipio FOREIGN KEY (CP)
+        REFERENCES libreria.Municipio (CP) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Autor
+(
+
+    CONSTRAINT pk_autor PRIMARY KEY (RFC)
+)
+    INHERITS (libreria.Persona);
+
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Encargado
+(
+
+    CONSTRAINT pk_encargado PRIMARY KEY (RFC)
+)
+    INHERITS (libreria.Persona);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Cliente
+(
+    email_cliente character varying(100) NOT NULL,
+    telefono_cliente character varying(15) NOT NULL,
+    CONSTRAINT pk_cliente PRIMARY KEY (RFC)
+)
+    INHERITS (libreria.Persona);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Factura
+(
+    factura_id integer,
+    RFC character varying(13) NOT NULL,
+    fecha_compra date NOT NULL,
+    CONSTRAINT pk_factura PRIMARY KEY (factura_id),
+    CONSTRAINT fk_factura_cliente FOREIGN KEY (RFC)
+        REFERENCES libreria.Cliente (RFC) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Editorial
+(
+    nombre_editorial character varying(60),
+    telefono_editorial numeric(15) NOT NULL,
+    CP numeric(5) NOT NULL,
+    CONSTRAINT pk_editorial PRIMARY KEY (nombre_editorial),
+    CONSTRAINT fk_editorial_municipio FOREIGN KEY (CP)
+        REFERENCES libreria.Municipio (CP) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Libreria
+(
+    libreria_id integer,
+    telefono numeric(15) NOT NULL,
+    RFC character varying(13) NOT NULL,
+    CP numeric(5) NOT NULL,
+    direccion character varying(255) NOT NULL,
+    CONSTRAINT pk_libreria PRIMARY KEY (libreria_id),
+    CONSTRAINT fk_libreria_encargado FOREIGN KEY (RFC)
+        REFERENCES libreria.Encargado (RFC) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT fk_libreria_municipio FOREIGN KEY (CP)
+        REFERENCES libreria.Municipio (CP) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Libro
+(
+    ISBN numeric(13),
+    RFC character varying(13) NOT NULL,
+    nombre_editorial character varying(60) NOT NULL,
+    anio numeric(4) NOT NULL,
+    titulo character varying(255) NOT NULL,
+    precio numeric(10, 2) NOT NULL,
+    categoria_id integer NOT NULL,
+    CONSTRAINT pk_libro PRIMARY KEY (ISBN),
+    CONSTRAINT fk_libro_autor FOREIGN KEY (RFC)
+        REFERENCES libreria.Autor (RFC) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT fk_libro_editorial FOREIGN KEY (nombre_editorial)
+        REFERENCES libreria.Editorial (nombre_editorial) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT fk_libro_categoria FOREIGN KEY (categoria_id)
+        REFERENCES libreria.Categoria (categoria_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT ck_precio_mayor_cero CHECK (precio > 0) NOT VALID
+);
+
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Libreria_libro
+(
+    libreria_id integer,
+    ISBN numeric(13),
+    stock integer NOT NULL,
+    CONSTRAINT pk_libreria_libro PRIMARY KEY (libreria_id, ISBN),
+    CONSTRAINT fk_libreria_libro_libreria FOREIGN KEY (libreria_id)
+        REFERENCES libreria.Libreria (libreria_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT fk_libreria_libro_libro FOREIGN KEY (ISBN)
+        REFERENCES libreria.Libro (ISBN) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+CREATE TABLE IF NOT EXISTS libreria.Historial_precios
+(
+    ISBN numeric(13) NOT NULL,
+    precio_antiguo numeric(10, 2) NOT NULL,
+    precio_nuevo numeric(10, 2) NOT NULL,
+    fecha_modificacion date NOT NULL,
+    CONSTRAINT fk_historial_precios_libro FOREIGN KEY (ISBN)
+        REFERENCES libreria.Libro (ISBN) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+
+
+CREATE TABLE IF NOT EXISTS libreria.Factura_Libro
+(
+    factura_id integer,
+    ISBN numeric(13),
+    cantidad_libro integer NOT NULL,
+    CONSTRAINT pk_factura_libro PRIMARY KEY (factura_id, ISBN),
+    CONSTRAINT fk_factura_libro_factura FOREIGN KEY (factura_id)
+        REFERENCES libreria.Factura (factura_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT fk_factura_libro_libro FOREIGN KEY (ISBN)
+        REFERENCES libreria.Libro (ISBN) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
