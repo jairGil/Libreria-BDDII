@@ -96,7 +96,7 @@ CREATE TABLE Libreria (
     direccion character varying(255) NOT NULL,
     CONSTRAINT pk_libreria PRIMARY KEY (libreria_id),
     CONSTRAINT fk_libreria_encargado FOREIGN KEY (RFC)
-        REFERENCES Encargado (RFC)
+        REFERENCES Encargado (RFC),
     CONSTRAINT fk_libreria_municipio FOREIGN KEY (CP)
         REFERENCES Municipio (CP)
 );
@@ -112,11 +112,11 @@ CREATE TABLE Libro (
     categoria_id integer NOT NULL,
     CONSTRAINT pk_libro PRIMARY KEY (ISBN),
     CONSTRAINT fk_libro_autor FOREIGN KEY (RFC)
-        REFERENCES Autor (RFC)
+        REFERENCES Autor (RFC),
     CONSTRAINT fk_libro_editorial FOREIGN KEY (nombre_editorial)
-        REFERENCES Editorial (nombre_editorial)
+        REFERENCES Editorial (nombre_editorial),
     CONSTRAINT fk_libro_categoria FOREIGN KEY (categoria_id)
-        REFERENCES Categoria (categoria_id)
+        REFERENCES Categoria (categoria_id),
     CONSTRAINT ck_precio_mayor_cero CHECK (precio > 0) NOT VALID
 );
 
@@ -127,7 +127,7 @@ CREATE TABLE Libreria_libro (
     stock integer NOT NULL,
     CONSTRAINT pk_libreria_libro PRIMARY KEY (libreria_id, ISBN),
     CONSTRAINT fk_libreria_libro_libreria FOREIGN KEY (libreria_id)
-        REFERENCES Libreria (libreria_id)
+        REFERENCES Libreria (libreria_id),
     CONSTRAINT fk_libreria_libro_libro FOREIGN KEY (ISBN)
         REFERENCES Libro (ISBN) 
 );
@@ -148,7 +148,7 @@ CREATE TABLE Factura_Libro (
     cantidad_libro integer NOT NULL,
     CONSTRAINT pk_factura_libro PRIMARY KEY (factura_id, ISBN),
     CONSTRAINT fk_factura_libro_factura FOREIGN KEY (factura_id)
-        REFERENCES Factura (factura_id)
+        REFERENCES Factura (factura_id),
     CONSTRAINT fk_factura_libro_libro FOREIGN KEY (ISBN)
         REFERENCES Libro (ISBN) 
 );
