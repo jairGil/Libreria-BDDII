@@ -1,3 +1,4 @@
+from typing import Tuple
 import psycopg2
 
 
@@ -20,9 +21,15 @@ class Conexion:
     def conectar(self):
         try:
             # connect to the PostgreSQL server
-            self.conexion = psycopg2.connect(f"dbname={self.database} user={self.usuario} password={self.contrasena} port={self.puerto} host={self.host}")
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            self.conexion = psycopg2.connect(f"dbname={self.database} host={self.host} port={self.puerto} user={self.usuario} password={self.contrasena}")
+
+            msg = "Conexion exitosa"
+        except (psycopg2.DatabaseError) as error:
+            if self.conexion is None:
+                msg = "Conexion no realizada\n"
+            msg += error.__str__()
+
+        return self.conexion, msg
     
     def desconectar(self):
         try:
