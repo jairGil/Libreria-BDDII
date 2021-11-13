@@ -99,6 +99,8 @@ class FrmConexion(QWidget):
 
             if con is None:
                 DlgAviso(self, txt)
+            else:
+                self.parent().setCurrentIndex(1)
         else: 
             for txt in self.txts:
                 txt.setStyleSheet(line_edit_default)
