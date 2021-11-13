@@ -23,11 +23,15 @@ class DlgAviso(QDialog):
         self.setStyleSheet("""
                               QWidget {
                                   background-color: white;
-                              }
-                                        
+                              }                                        
                               QPushButton {
-                                  color: white;
-                                  background-color: rgb(200, 0, 0);
+                                  color: #FFEBEE;
+                                  background-color: #D50000;
+                                  height: 30;
+                              }
+                              QPushButton::hover {
+                                  color: #FFEBEE;
+                                  background-color: #B71C1C;
                                   height: 30;
                               }""")
 

@@ -2,3 +2,5 @@ venv/
 Temp
 /contolador/__pycache__
 /vista/__pycache__
+/vista/Dialog/__pycache__
+/vista/Frames/__pycache__

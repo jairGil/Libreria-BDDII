@@ -9,6 +9,11 @@ class App(QStackedWidget):
         self.addWidget(self.frm2)
         self.show()
 
+        self.setStyleSheet("""
+                            QFrame {
+                                background-color: #FFFFFF;
+                            }""")
+
 
 if __name__ == '__main__':
     from PyQt5.QtWidgets import QApplication, QStackedWidget
