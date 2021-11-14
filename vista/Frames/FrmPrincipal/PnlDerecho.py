@@ -1,4 +1,3 @@
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QFrame, QGridLayout, QSpacerItem, QSizePolicy, QStackedWidget, QLabel, QWidget
 
 from vista.Frames.FrmDerecho.FrmConsultaFechas import FrmConsultaFechas
@@ -29,6 +28,13 @@ class PnlPrincipalDer(QFrame):
         self.stack.addWidget(QWidget()) # Reportes semanales
         self.stack.addWidget(FrmConsultaFechas()) # Reportes personalizados
         self.stack.addWidget(QWidget()) # Facturacion
+        # SELECT count(f.factura_id, f.rfc, c.nombre_persona, c.apellido_paterno, c.apellido_materno,
+        #        f.fecha_compra, lf.isbn, fl.cantidad_libro, l.precio) 
+        # FROM factura f, cliente c, factura_libro fl, libro l
+        # WHERE factura_id = 1000000
+        # AND f.factura_id = lf.factura_id 
+        # AND fl.isbn = l.isbn
+        # AND f.rfc = c.rfc 
         self.stack.addWidget(QWidget()) # Cambio de precios de los libros
 
 
