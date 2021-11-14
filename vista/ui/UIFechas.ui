@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Frame</class>
+ <widget class="QFrame" name="Frame">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>904</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::StyledPanel</enum>
+  </property>
+  <property name="frameShadow">
+   <enum>QFrame::Raised</enum>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="2">
+    <widget class="QRadioButton" name="radioButton_3">
+     <property name="text">
+      <string>Año</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Fecha de Fin</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QDateEdit" name="dateEdit_2"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QDateEdit" name="dateEdit_4">
+     <property name="locale">
+      <locale language="Spanish" country="UnitedStates"/>
+     </property>
+     <property name="displayFormat">
+      <string>MMMM</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>Buscar</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QRadioButton" name="radioButton_2">
+     <property name="text">
+      <string>Mes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QSpinBox" name="spinBox">
+     <property name="maximum">
+      <number>2050</number>
+     </property>
+     <property name="value">
+      <number>2021</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QRadioButton" name="radioButton">
+     <property name="text">
+      <string>Dia</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3" colspan="2">
+    <widget class="QRadioButton" name="radioButton_4">
+     <property name="text">
+      <string>Rango</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QDateEdit" name="dateEdit_3"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDateEdit" name="dateEdit">
+     <property name="locale">
+      <locale language="Spanish" country="Mexico"/>
+     </property>
+     <property name="displayFormat">
+      <string>dd/MMMM/yyyy</string>
+     </property>
+     <property name="date">
+      <date>
+       <year>2021</year>
+       <month>12</month>
+       <day>11</day>
+      </date>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Fecha de inicio</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="6">
+    <widget class="QTableWidget" name="tableWidget"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

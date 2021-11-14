@@ -1,5 +1,7 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QFrame, QGridLayout, QSpacerItem, QSizePolicy, QStackedWidget, QLabel
+from PyQt5.QtWidgets import QFrame, QGridLayout, QSpacerItem, QSizePolicy, QStackedWidget, QLabel, QWidget
+
+from vista.Frames.FrmDerecho.FrmConsultaFechas import FrmConsultaFechas
 
 
 class PnlPrincipalDer(QFrame):
@@ -20,9 +22,14 @@ class PnlPrincipalDer(QFrame):
         self.grid_layout.addWidget(self.stack, 1, 1)
 
         self.stack.setMinimumSize(900, 600)
+        """
         lbl = QLabel("Aqui estoy", self.stack)
         lbl.setAlignment(Qt.AlignCenter)
-        self.stack.addWidget(lbl)
+        """
+        self.stack.addWidget(QWidget()) # Reportes semanales
+        self.stack.addWidget(FrmConsultaFechas()) # Reportes personalizados
+        self.stack.addWidget(QWidget()) # Facturacion
+        self.stack.addWidget(QWidget()) # Cambio de precios de los libros
 
 
 if __name__ == '__main__':
