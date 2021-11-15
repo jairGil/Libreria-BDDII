@@ -28,9 +28,11 @@ class PnlPrincipalDer(QFrame):
         self.stack.addWidget(QWidget()) # Reportes semanales
         self.stack.addWidget(FrmConsultaFechas()) # Reportes personalizados
         self.stack.addWidget(QWidget()) # Facturacion
-        # SELECT count(f.factura_id, f.rfc, c.nombre_persona, c.apellido_paterno, c.apellido_materno,
-        #        f.fecha_compra, lf.isbn, fl.cantidad_libro, l.precio) 
-        # FROM factura f, cliente c, factura_libro fl, libro l
+        # SELECT count(factura.factura_id, factura.rfc, cliente.nombre_persona, cliente.apellido_paterno, 
+        #               cliente.apellido_materno, factura.fecha_compra, libro.isbn, factura_libro.cantidad_libro, libro.precio) 
+        # FROM factura, cliente, factura_libro, libro
+        # GROUP BY ROLLUP (factura.factura_id, factura.rfc, cliente.nombre_persona, cliente.apellido_paterno, 
+        #               cliente.apellido_materno, factura.fecha_compra)
         # WHERE factura_id = 1000000
         # AND f.factura_id = lf.factura_id 
         # AND fl.isbn = l.isbn
