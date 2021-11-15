@@ -6,4 +6,4 @@ Temp
 /vista/Frames/__pycache__
 /vista/Frames/FrmPrincipal/__pycache__
 /vista/Frames/FrmDerecho/__pycache__
-/DB/*.sql
+/DB
