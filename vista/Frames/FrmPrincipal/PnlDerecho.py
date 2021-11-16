@@ -12,8 +12,6 @@ class PnlPrincipalDer(QFrame):
         super().__init__(parent=p)
         self.grid_layout = QGridLayout(self)
         self.stack = QStackedWidget(self)
-
-        print(conexion.usuario)
         self.conex = conexion
         #dml = DML(self.conex)
         #datos_libro = dml.consulta("SELECT l.isbn, l.titulo, l.precio, c.nombre_categoria FROM libreria.libro as l, libreria.categoria as c WHERE l.categoria_id = c.categoria_id ORDER BY 1")
@@ -26,7 +24,7 @@ class PnlPrincipalDer(QFrame):
         print("Agregando widgets")
         self.pagina_inicio = QWidget()
         self.pagina_reportes = FrmConsultaFechas()
-        self.pagina_facturacion = FrmFacturas()
+        self.pagina_facturacion = FrmFacturas(self)
         self.pagina_librerias = QWidget() # Consulta(encabezados_libreria, datos_libreria)
         self.pagina_libros = QWidget() # Consulta(encabezados_libro, datos_libro)
         self.pagina_encargados = QWidget() # Consulta(encabezados_encargado, datos_encargado)

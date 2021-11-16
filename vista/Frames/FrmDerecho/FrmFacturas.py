@@ -1,10 +1,12 @@
-from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QFrame, QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
+
+from controlador.DML import DML
+from vista.Dialog.DlgAviso import DlgAviso
 
 
 class FrmFacturas(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, p: QWidget):
+        super().__init__(parent=p)
         self.layout_principal = QGridLayout(self)
         self.lbl_id_buscar = QLabel("ID FACRURA:", self)
         self.txt_id = QLineEdit(self)
@@ -25,12 +27,6 @@ class FrmFacturas(QWidget):
         self.lbl_precio = QLabel("PRECIO", self.frm_detalles)
         self.lbl_cantidad = QLabel("CANTIDAD", self.frm_detalles)
         self.lbl_subtotal = QLabel("SUBTOTAL", self.frm_detalles)
-        self.label_12 = QLabel("Label_12", self.frm_detalles)
-        self.label_13 = QLabel("Label_13", self.frm_detalles)
-        self.label_11 = QLabel("Label_11", self.frm_detalles)
-        self.label_15 = QLabel("Label_15", self.frm_detalles)
-        self.label_14 = QLabel("Label_14", self.frm_detalles)
-        self.label_10 = QLabel("Label_10", self.frm_detalles)
 
         self.setup_ui()
 
@@ -59,24 +55,112 @@ class FrmFacturas(QWidget):
         self.layout_datos_factura.addWidget(self.lbl_fecha)
 
         self.layout_factura.addWidget(self.frm_datos_factura)
-
-        # Colocar widgets detalles de la compra
-        self.layout_detalles.addWidget(self.lbl_separador, 0, 0, 1, 5)
+        
+        # Colocar widgets detalles de la compra        
+        self.layout_detalles.addWidget(self.lbl_separador, 0, 0, 1, 6)
         self.layout_detalles.addWidget(self.lbl_detalles, 1, 0,)
-        self.layout_detalles.addWidget(self.lbl_libro, 2, 1)
-        self.layout_detalles.addWidget(self.lbl_precio, 2, 2)
-        self.layout_detalles.addWidget(self.lbl_cantidad, 2, 3)
-        self.layout_detalles.addWidget(self.lbl_subtotal, 2, 4)
+        self.layout_detalles.addWidget(self.lbl_libro, 2, 0, 1, 3)
+        self.layout_detalles.addWidget(self.lbl_precio, 2, 3)
+        self.layout_detalles.addWidget(self.lbl_cantidad, 2, 4)
+        self.layout_detalles.addWidget(self.lbl_subtotal, 2, 5)
 
-        self.layout_detalles.addWidget(self.label_12, 3, 1)
-        self.layout_detalles.addWidget(self.label_13, 3, 2)
-        self.layout_detalles.addWidget(self.label_11, 4, 4)
-        self.layout_detalles.addWidget(self.label_15, 3, 4)
-        self.layout_detalles.addWidget(self.label_14, 3, 3)
-        self.layout_detalles.addWidget(self.label_10, 4, 3)
+        self.limpiar_factura()
+
         self.layout_factura.addWidget(self.frm_detalles)
         
         self.btn_buscar.clicked.connect(self.accion_btn_buscar)
 
     def accion_btn_buscar(self):
-        pass
+        try:
+            id_factura = int(self.txt_id.text())
+
+            dml = DML(self.parent().parent().conex)
+            sql =  f''' SELECT f.factura_id, concat(c.nombre_persona, ' ', c.apellido_paterno, ' ', c.apellido_materno), 
+                        to_char(f.fecha_compra, 'YYYY-MM-DD')
+                        FROM libreria.factura as f, libreria.cliente as c 
+                        WHERE f.rfc = c.rfc
+                        AND f.factura_id = {id_factura}
+                    '''
+            datos = dml.consulta(sql)
+
+            sql =  f''' SELECT l.titulo, l.precio, fl.cantidad_libro, fl.cantidad_libro * l.precio
+                        FROM libreria.libro as l, libreria.factura_libro as fl 
+                        WHERE l.isbn = fl.isbn
+                        AND fl.factura_id = {id_factura}
+                    '''
+            detalles = dml.consulta(sql)
+
+            self.agregar_detalles(detalles)
+            self.agregar_datos(datos)
+        except ValueError:
+            DlgAviso(self, "Verifique el campo de texto ID \n\n ID NO VALIDO")  
+
+    def agregar_datos(self, datos:list):
+        try: 
+            d = datos[0]
+            self.lbl_id_factura.setText("ID FACTURA: " + str(d[0]))
+            self.lbl_cliente.setText("CLIENTE: " + str(d[1]))
+            self.lbl_fecha.setText("FECHA: " + str(d[2]))
+        except IndexError:
+            DlgAviso(self, "Factura no existente")
+            self.limpiar_factura()
+
+    def agregar_detalles(self, detalles: list):
+        self.limpiar_factura()
+        total = 0
+        labels = []
+        for libro in detalles:
+            titulo = str(libro[0])
+            precio = str(libro[1])
+            cantidad = str(libro[2])
+            subtotal = str(libro[3])
+            lbl_titulo_libro = QLabel(titulo, self.frm_detalles)
+            lbl_precio_libro = QLabel(precio, self.frm_detalles)
+            lbl_cantidad_libro = QLabel(cantidad, self.frm_detalles)
+            lbl_subtotal_libro = QLabel(subtotal, self.frm_detalles)
+            labels.append((lbl_titulo_libro, lbl_precio_libro, lbl_cantidad_libro, lbl_subtotal_libro))
+            total += float(subtotal)
+
+        fila = 3
+        for renglon in labels:
+            columna = 0
+            for label in renglon:
+                if columna == 0:
+                    self.layout_detalles.addWidget(label, fila, columna, 1, 3)
+                    columna += 2
+                else:
+                    self.layout_detalles.addWidget(label, fila, columna)
+                columna += 1
+            fila += 1
+
+        txt_total = f"${total:.2f}"
+        
+        lbl_total = QLabel("TOTAL", self.frm_detalles)
+        lbl_total_cuenta = QLabel(txt_total, self.frm_detalles)
+        self.layout_detalles.addWidget(lbl_total, fila, 4)
+        self.layout_detalles.addWidget(lbl_total_cuenta, fila, 5)
+
+    def limpiar_factura(self):
+        self.lbl_id_factura.setText("ID FACTURA: ")
+        self.lbl_cliente.setText("CLIENTE: ")
+        self.lbl_fecha.setText("FECHA: ")
+
+        labels = []
+        for i in range(6):
+            lbl_titulo_libro = QLabel("", self.frm_detalles)
+            lbl_precio_libro = QLabel("", self.frm_detalles)
+            lbl_cantidad_libro = QLabel("", self.frm_detalles)
+            lbl_subtotal_libro = QLabel("", self.frm_detalles)
+            labels.append((lbl_titulo_libro, lbl_precio_libro, lbl_cantidad_libro, lbl_subtotal_libro))
+
+        fila = 3
+        for renglon in labels:
+            columna = 0
+            for label in renglon:
+                if columna == 0:
+                    self.layout_detalles.addWidget(label, fila, columna, 1, 3)
+                    columna += 2
+                else:
+                    self.layout_detalles.addWidget(label, fila, columna)
+                columna += 1
+            fila += 1
