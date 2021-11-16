@@ -4,6 +4,7 @@ from controlador.DML import DML
 from vista.Frames.FrmDerecho.Consulta import Consulta
 
 from vista.Frames.FrmDerecho.FrmConsultaFechas import FrmConsultaFechas
+from vista.Frames.FrmDerecho.FrmFacturas import FrmFacturas
 
 
 class PnlPrincipalDer(QFrame):
@@ -14,21 +15,21 @@ class PnlPrincipalDer(QFrame):
 
         print(conexion.usuario)
         self.conex = conexion
-        dml = DML(self.conex)
-        datos_libro = dml.consulta("SELECT l.isbn, l.titulo, l.precio, c.nombre_categoria FROM libreria.libro as l, libreria.categoria as c WHERE l.categoria_id = c.categoria_id ORDER BY 1")
-        encabezados_libro = ["ISBN", "Titulo", "Precio", "Categoria"]
-        datos_libreria = dml.consulta("Select libreria_id, nombre_libreria, telefono, RFC, cp, direccion from libreria.libreria")
-        encabezados_libreria = ["libreria_id", "nombre_libreria", "telefono", "RFC", "cp", "direccion"]
-        datos_encargado = dml.consulta("Select RFC, apellido_paterno, apellido_materno, nombre_persona, cp, direccion from libreria.encargado")
-        encabezados_encargado = ["RFC", "Apellido Paterno", "Apellido Materno", "Nombre", "cp", "direccion"]
-        print(len(datos_encargado))
+        #dml = DML(self.conex)
+        #datos_libro = dml.consulta("SELECT l.isbn, l.titulo, l.precio, c.nombre_categoria FROM libreria.libro as l, libreria.categoria as c WHERE l.categoria_id = c.categoria_id ORDER BY 1")
+        #encabezados_libro = ["ISBN", "Titulo", "Precio", "Categoria"]
+        #datos_libreria = dml.consulta("Select libreria_id, nombre_libreria, telefono, RFC, cp, direccion from libreria.libreria")
+        #encabezados_libreria = ["libreria_id", "nombre_libreria", "telefono", "RFC", "cp", "direccion"]
+        #datos_encargado = dml.consulta("Select RFC, apellido_paterno, apellido_materno, nombre_persona, cp, direccion from libreria.encargado")
+        #encabezados_encargado = ["RFC", "Apellido Paterno", "Apellido Materno", "Nombre", "cp", "direccion"]
+        #print(len(datos_encargado))
         print("Agregando widgets")
         self.pagina_inicio = QWidget()
         self.pagina_reportes = FrmConsultaFechas()
-        self.pagina_facturacion = QWidget()
-        self.pagina_librerias = Consulta(encabezados_libreria, datos_libreria)
-        self.pagina_libros = Consulta(encabezados_libro, datos_libro)
-        self.pagina_encargados = Consulta(encabezados_encargado, datos_encargado)
+        self.pagina_facturacion = FrmFacturas()
+        self.pagina_librerias = QWidget() # Consulta(encabezados_libreria, datos_libreria)
+        self.pagina_libros = QWidget() # Consulta(encabezados_libro, datos_libro)
+        self.pagina_encargados = QWidget() # Consulta(encabezados_encargado, datos_encargado)
         self.setup_ui()
 
     def setup_ui(self):
