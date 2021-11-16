@@ -1,4 +1,4 @@
-from Conexion import Conexion
+from controlador.Conexion import Conexion
 
 class DML:
     conexion: Conexion
