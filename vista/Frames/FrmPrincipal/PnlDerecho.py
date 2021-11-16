@@ -39,27 +39,15 @@ class PnlPrincipalDer(QFrame):
         lbl = QLabel("Aqui estoy", self.stack)
         lbl.setAlignment(Qt.AlignCenter)
         """
-<<<<<<< HEAD
-        self.stack.addWidget(QWidget()) # Reportes semanales
-        self.stack.addWidget(FrmConsultaFechas()) # Reportes personalizados
-        self.stack.addWidget(QWidget()) # Facturacion
-        # SELECT count(f.factura_id, f.rfc, c.nombre_persona, c.apellido_paterno, c.apellido_materno,
-        #        f.fecha_compra, lf.isbn, fl.cantidad_libro, l.precio) 
-        # FROM factura f, cliente c, factura_libro fl, libro l
-=======
         # SELECT count(factura.factura_id, factura.rfc, cliente.nombre_persona, cliente.apellido_paterno, 
         #               cliente.apellido_materno, factura.fecha_compra, libro.isbn, factura_libro.cantidad_libro, libro.precio) 
         # FROM factura, cliente, factura_libro, libro
         # GROUP BY ROLLUP (factura.factura_id, factura.rfc, cliente.nombre_persona, cliente.apellido_paterno, 
         #               cliente.apellido_materno, factura.fecha_compra)
->>>>>>> 92c18506b444390a35707f0d4163c01f68d27b41
         # WHERE factura_id = 1000000
         # AND f.factura_id = lf.factura_id 
         # AND fl.isbn = l.isbn
         # AND f.rfc = c.rfc 
-<<<<<<< HEAD
-        self.stack.addWidget(QWidget()) # Cambio de precios de los libros
-=======
         self.stack.addWidget(self.pagina_inicio) # Reportes semanales
         self.stack.addWidget(self.pagina_reportes) # Reportes personalizados
         self.stack.addWidget(self.pagina_facturacion) # Facturacion
@@ -67,7 +55,6 @@ class PnlPrincipalDer(QFrame):
         self.stack.addWidget(self.pagina_libros)
         self.stack.addWidget(self.pagina_encargados)
         self.grid_layout.addWidget(self.stack,0, 0)
->>>>>>> 92c18506b444390a35707f0d4163c01f68d27b41
 
 
 if __name__ == '__main__':
