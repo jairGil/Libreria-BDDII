@@ -1,5 +1,9 @@
 from PyQt5.QtCore import QDate, QLocale
-from PyQt5.QtWidgets import QDateEdit, QFrame, QGridLayout, QLabel, QPushButton, QRadioButton, QTableWidget
+from PyQt5.QtWidgets import QDateEdit, QFrame, QGridLayout, QLabel, QPushButton, QRadioButton, QTableWidget, QTableWidgetItem
+from controlador.Conexion import Conexion
+from controlador.DML import DML
+
+from vista.Frames.FrmDerecho.Consulta import Consulta
 
 
 class FrmConsultaFechas(QFrame):
@@ -18,9 +22,11 @@ class FrmConsultaFechas(QFrame):
         self.ded_fecha_inicio = QDateEdit(self)
         self.ded_fecha_fin = QDateEdit(self)
         self.btn_buscar = QPushButton("Buscar", self)
+
         self.tbl_consulta = QTableWidget(self)
 
         self.setup_ui()
+        self.show()
 
     def setup_ui(self):
         # Añadiendo los radio buttons

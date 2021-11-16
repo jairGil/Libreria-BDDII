@@ -9,11 +9,12 @@ class PnlPrincipalIzq(QFrame):
         self.btn_reportes = QPushButton("Reportes", self)
         self.btn_facturacion = QPushButton("Facturacion", self)
         self.btn_librerias = QPushButton("Librerias", self)
-        self.btn_precios = QPushButton("Precios", self)
+        self.btn_libros = QPushButton("Libros", self)
+        self.btn_encargados = QPushButton("Encargados", self)
         self.btn_salir = QPushButton("Salir", self)
         self.spacer = QSpacerItem(20, 40, vPolicy=QSizePolicy.Expanding)
 
-        self.buttons = [self.btn_inicio, self.btn_reportes, self.btn_facturacion,  self.btn_librerias, self.btn_precios]
+        self.buttons = [self.btn_inicio, self.btn_reportes, self.btn_facturacion,  self.btn_librerias, self.btn_libros, self.btn_encargados]
 
         self.setup_ui()
 
