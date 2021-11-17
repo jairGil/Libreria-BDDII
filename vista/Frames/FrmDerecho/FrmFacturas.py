@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QFrame, QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
 
 from controlador.DML import DML
+from controlador.DMLFacturas import DMLFacturas
 from vista.Dialog.DlgAviso import DlgAviso
 
 
@@ -73,22 +74,9 @@ class FrmFacturas(QWidget):
     def accion_btn_buscar(self):
         try:
             id_factura = int(self.txt_id.text())
-
-            dml = DML(self.parent().parent().conex)
-            sql =  f''' SELECT f.factura_id, concat(c.nombre_persona, ' ', c.apellido_paterno, ' ', c.apellido_materno), 
-                        to_char(f.fecha_compra, 'YYYY-MM-DD')
-                        FROM libreria.factura as f, libreria.cliente as c 
-                        WHERE f.rfc = c.rfc
-                        AND f.factura_id = {id_factura}
-                    '''
-            datos = dml.consulta(sql)
-
-            sql =  f''' SELECT l.titulo, l.precio, fl.cantidad_libro, fl.cantidad_libro * l.precio
-                        FROM libreria.libro as l, libreria.factura_libro as fl 
-                        WHERE l.isbn = fl.isbn
-                        AND fl.factura_id = {id_factura}
-                    '''
-            detalles = dml.consulta(sql)
+            dml_facturas = DMLFacturas(self.parent().parent().conex)
+            datos = dml_facturas.get_detalles_cliente(id_factura)
+            detalles = dml_facturas.get_detalles_compra(id_factura)
 
             self.agregar_detalles(detalles)
             self.agregar_datos(datos)

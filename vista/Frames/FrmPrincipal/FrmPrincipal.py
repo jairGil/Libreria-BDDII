@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QStackedWidget, QWidget, QHBoxLayout, QFrame, QSplitter
 from controlador.Conexion import Conexion
+from controlador.DMLConsultas import DMLConsultas
 from vista.Frames.FrmPrincipal.PnlDerecho import PnlPrincipalDer
 from vista.Frames.FrmPrincipal.PnlIzquierdo import PnlPrincipalIzq
 
@@ -10,6 +11,7 @@ class FrmPrincipal(QWidget):
         super().__init__(parent=p)
 
         self.conexion = conexion
+        self.dml_consultas = DMLConsultas(self.conexion)
 
         self.layout = QHBoxLayout(self)
         self.pnl_izquierdo = PnlPrincipalIzq(p)
@@ -47,10 +49,29 @@ class FrmPrincipal(QWidget):
             self.pnl_derecho.stack.setCurrentIndex(2)
         if self.pnl_izquierdo.btn_librerias.isChecked():
             self.pnl_derecho.stack.setCurrentIndex(3)
+            if not self.pnl_derecho.stack.widget(3).datos_mostrados:
+                self.cargar_datos_librerias()
         if self.pnl_izquierdo.btn_libros.isChecked():
             self.pnl_derecho.stack.setCurrentIndex(4)
+            if not self.pnl_derecho.stack.widget(4).datos_mostrados:
+                self.cargar_datos_libros()
         if self.pnl_izquierdo.btn_encargados.isChecked():
             self.pnl_derecho.stack.setCurrentIndex(5)
+            if not self.pnl_derecho.stack.widget(5).datos_mostrados:
+                self.cargar_datos_encargados()
+    
+    def cargar_datos_librerias(self):
+        encabezados, datos = self.dml_consultas.get_librerias()
+        self.pnl_derecho.stack.widget(3).agrega_datos(encabezados, datos)
+    
+    def cargar_datos_libros(self):
+        encabezados, datos = self.dml_consultas.get_libros()
+        self.pnl_derecho.stack.widget(4).agrega_datos(encabezados, datos)
+    
+    def cargar_datos_encargados(self):
+        encabezados, datos =  self.dml_consultas.get_encargados()
+        self.pnl_derecho.stack.widget(5).agrega_datos(encabezados, datos)
+        
     
     def btn_salir_click(self):
         self.parent().setCurrentIndex(0)
