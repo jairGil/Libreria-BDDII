@@ -164,3 +164,4 @@ class FrmFacturas(QWidget):
         pdfs = PDFs('temp.xml', "Facturas/" + self.txt_id.text() + ".pdf")
         pdfs.createPDF()
         pdfs.savePDF()
+        DlgAviso(self, "Archivo PDF guardado con éxito")
