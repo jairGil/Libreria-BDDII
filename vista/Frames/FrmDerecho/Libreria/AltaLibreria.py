@@ -1,5 +1,6 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QAction, QComboBox, QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QWidget
+import psycopg2
 from controlador.DMLCiudad import DMLCiudad
 from controlador.DMLEncargado import DMLEncargado
 from controlador.DMLPais import DMLPais
@@ -104,26 +105,29 @@ class AltaLibreria(QWidget):
             self.cmbx_encargado.addItem(d[1], d)
 
     def accion_btn_agregar(self):
-        vacios = False
-        for campo in self.campos:
-            if campo.text() == "" or campo.text() is None:
-                DlgAviso(self, "ERROR: Se encontraron campos vacíos")
-                vacios = True
+        try:
+            vacios = False
+            for campo in self.campos:
+                if campo.text() == "" or campo.text() is None:
+                    DlgAviso(self, "ERROR: Se encontraron campos vacíos")
+                    vacios = True
 
-        for cmbx in self.combos:
-            if cmbx.currentText() == "" or cmbx.currentText() is None:
-                DlgAviso(self, "ERROR: Se encontraron combo boxes vacíos")
-                vacios = True
-        
-        if not vacios:
-            nombre = self.txt_nombre.text()
-            telefono = self.txt_telefono.text()
-            municipio = int(self.cmbx_municipio.currentData()[0])
-            direccion = self.txt_direccion.text()
-            encargado = self.cmbx_encargado.currentData()[0]
+            for cmbx in self.combos:
+                if cmbx.currentText() == "" or cmbx.currentText() is None:
+                    DlgAviso(self, "ERROR: Se encontraron combo boxes vacíos")
+                    vacios = True
+            
+            if not vacios:
+                nombre = self.txt_nombre.text()
+                telefono = self.txt_telefono.text()
+                municipio = int(self.cmbx_municipio.currentData()[0])
+                direccion = self.txt_direccion.text()
+                encargado = self.cmbx_encargado.currentData()[0]
 
-            lib = Libreria(nombre, telefono, encargado, municipio, direccion)
+                lib = Libreria(nombre, telefono, encargado, municipio, direccion)
 
-            self.dml_libreria.altas(lib)
+                self.dml_libreria.altas(lib)
 
-            DlgAviso(self, "Datos ingresados correctamente")
+                DlgAviso(self, "Datos ingresados correctamente")
+        except psycopg2.errors.UndefinedColumn as e:
+            DlgAviso(self, "Error al ingresar los datos\n " + str(e))

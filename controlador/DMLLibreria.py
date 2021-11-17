@@ -34,4 +34,5 @@ class DMLLibreria:
                                 AND e.rfc = l.rfc
                                 AND m.cp = l.cp
                                 AND c.ciudad_id = m.ciudad_id
-                                AND p.pais_id = c.pais_id""")
+                                AND p.pais_id = c.pais_id
+                                ORDER BY libreria_id""")
