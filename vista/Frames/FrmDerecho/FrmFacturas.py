@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QFrame, QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
 
 from controlador.DMLFacturas import DMLFacturas
+from controlador.PDFs import PDFs
 from vista.Dialog.DlgAviso import DlgAviso
 
 
@@ -69,6 +70,7 @@ class FrmFacturas(QWidget):
         self.layout_factura.addWidget(self.frm_detalles)
         
         self.btn_buscar.clicked.connect(self.accion_btn_buscar)
+        self.btn_genera_pdf.clicked.connect(self.genera_pdf)
 
     def accion_btn_buscar(self):
         try:
@@ -79,6 +81,7 @@ class FrmFacturas(QWidget):
 
             self.agregar_detalles(detalles)
             self.agregar_datos(datos)
+            dml_facturas.crearXML(id_factura)
         except ValueError:
             DlgAviso(self, "Verifique el campo de texto ID \n\n ID NO VALIDO")  
 
@@ -138,7 +141,7 @@ class FrmFacturas(QWidget):
         self.lbl_fecha.setText("FECHA: ")
 
         labels = []
-        for i in range(6):
+        for i in range(7):
             lbl_titulo_libro = QLabel("", self.frm_detalles)
             lbl_precio_libro = QLabel("", self.frm_detalles)
             lbl_cantidad_libro = QLabel("", self.frm_detalles)
@@ -156,3 +159,8 @@ class FrmFacturas(QWidget):
                     self.layout_detalles.addWidget(label, fila, columna)
                 columna += 1
             fila += 1
+
+    def genera_pdf(self):
+        pdfs = PDFs('temp.xml', "Facturas/" + self.txt_id.text() + ".pdf")
+        pdfs.createPDF()
+        pdfs.savePDF()
