@@ -4,6 +4,7 @@ from vista.Frames.FrmDerecho.Consulta import Consulta
 
 from vista.Frames.FrmDerecho.FrmConsultaFechas import FrmConsultaFechas
 from vista.Frames.FrmDerecho.FrmFacturas import FrmFacturas
+from vista.Frames.FrmDerecho.FrmLibreria import FrmLibreria
 
 
 class PnlPrincipalDer(QFrame):
@@ -15,7 +16,7 @@ class PnlPrincipalDer(QFrame):
         self.pagina_inicio = QWidget()
         self.pagina_reportes = FrmConsultaFechas(self)
         self.pagina_facturacion = FrmFacturas(self)
-        self.pagina_librerias = Consulta()
+        self.pagina_librerias = FrmLibreria(self)
         self.pagina_libros = Consulta()
         self.pagina_encargados = Consulta()
         self.setup_ui()

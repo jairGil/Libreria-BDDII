@@ -17,8 +17,8 @@ class DMLPais:
     def cambios(self, pais: Pais):
         self.dml.altas_bajas_cambios(f"UPDATE Libreria.pais SET nombre_pais={pais.nombre_pais} WHERE pais_id={pais.paisId}")
 
-    def consultas(self, txt: str):
-        self.dml.consulta(f"SELECT * FROM Libreria.pais WHERE nombre_pais like '{txt}'")
+    def consultas(self):
+        return self.dml.consulta(f"SELECT * FROM libreria.pais")
 
 '''
     CREATE SEQUENCE nombre START WITH 1 INCREMENT BY 1 NO LIMIT 
