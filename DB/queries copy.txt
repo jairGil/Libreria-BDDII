@@ -236,3 +236,18 @@ CREATE TABLE IF NOT EXISTS libreria.Factura_Libro
         NOT VALID
 );
 
+SELECT COUNT(*) FROM categoria;
+SELECT COUNT(*) FROM pais;
+SELECT COUNT(*) FROM ciudad;
+SELECT COUNT(*) FROM municipio;
+SELECT COUNT(*) FROM editorial;
+SELECT COUNT(*) FROM cliente;
+SELECT COUNT(*) FROM autor;
+SELECT COUNT(*) FROM encargado;
+SELECT COUNT(*) FROM libreria;
+SELECT COUNT(*) FROM libro;
+SELECT COUNT(*) FROM libreria_libro;
+SELECT COUNT(*) FROM persona;
+SELECT COUNT(*) FROM historial_precios;
+SELECT COUNT(*) FROM factura_libro;
+SELECT COUNT(*) FROM factura;
