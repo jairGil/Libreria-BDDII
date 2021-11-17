@@ -49,7 +49,6 @@ def respaldo_pg():
 
 
 if __name__ == '__main__':
-
     print('Espere un momento ejecutando Proceso de Respaldo…')
     respaldar = respaldo_pg()
     print(respaldar)

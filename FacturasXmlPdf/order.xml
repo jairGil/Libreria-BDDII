@@ -1,0 +1,25 @@
+<factura>
+<factura_id>1000000</factura_id>
+<nombre_cliente>Adam Alejandro</nombre_cliente>
+<apellido_paterno_cliente>Sosa</apellido_paterno_cliente>
+<apellido_materno_cliente>Sßnchez</apellido_materno_cliente>
+<fecha>2019-08-01</fecha>
+<compra>
+ <libro>
+    <isbn>1107204228115</isbn>
+    <titulo>El conserje que recuerda  y La fabrica y la derrotada</titulo>
+    <precio>392.40</precio>
+    <cantidad>2</cantidad>
+    
+</libro>
+
+<libro>
+<isbn>1121226227113</isbn>
+<titulo>El fontanero y el mosquito  y La espera con un proposito</titulo>
+<precio>1060.43</precio>
+<cantidad>3</cantidad>
+</libro>
+</compra>
+</factura>
+
+
