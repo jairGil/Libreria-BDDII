@@ -68,11 +68,14 @@ class AltaLibreria(QWidget):
         self.layout.addWidget(self.btn_limpiar, 8, 2)
         self.layout.addWidget(self.btn_agregar, 8, 3)
 
+        self.agregar_acciones()        
+
+    def agregar_acciones(self):
         self.btn_agregar.clicked.connect(self.accion_btn_agregar)
+        self.btn_limpiar.clicked.connect(self.limpiar_campos)
         self.agregar_datos_cmbx_pais()
         self.cmbx_pais.setCurrentIndex(-1)
         self.cmbx_pais.currentTextChanged.connect(self.llenar_cmbx_ciudad)
-
 
     def agregar_datos_cmbx_pais(self):
         dml_pais = DMLPais(self.conexion)
@@ -107,19 +110,17 @@ class AltaLibreria(QWidget):
         vacios = False
         for campo in self.campos:
             if campo.text() == "" or campo.text() is None:
-                DlgAviso("ERROR: Se encontraron campos vacíos")
+                DlgAviso(self, "ERROR: Se encontraron campos vacíos")
                 vacios = True
 
         for cmbx in self.combos:
             if cmbx.currentText() == "" or cmbx.currentText() is None:
-                DlgAviso("ERROR: Se encontraron combo boxes vacíos")
+                DlgAviso(self, "ERROR: Se encontraron combo boxes vacíos")
                 vacios = True
         
         if not vacios:
             nombre = self.txt_nombre.text()
             telefono = self.txt_telefono.text()
-            pais = int(self.cmbx_pais.currentData()[0])
-            ciudad = int(self.cmbx_ciudad.currentData()[0])
             municipio = int(self.cmbx_municipio.currentData()[0])
             direccion = self.txt_direccion.text()
             encargado = self.cmbx_encargado.currentData()[0]
@@ -127,3 +128,14 @@ class AltaLibreria(QWidget):
             lib = Libreria(nombre, telefono, encargado, municipio, direccion)
 
             self.dml_libreria.altas(lib)
+
+            DlgAviso(self, "Datos ingresados correctamente")
+
+    def limpiar_campos(self):
+        for c in self.campos:
+            c.setText("")
+        try:
+            for c in self.combos:
+                c.setCurrentIndex(0)
+        except TypeError:
+            pass
