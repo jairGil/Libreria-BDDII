@@ -27,7 +27,6 @@ class AltaLibreria(QWidget):
         self.txt_direccion = QLineEdit(self)
         self.lbl_encargado = QLabel("Encargado", self)
         self.cmbx_encargado = QComboBox(self)
-        self.btn_limpiar = QPushButton("Limpiar", self)
         self.btn_agregar = QPushButton("Agregar", self)
 
         self.campos = [self.txt_nombre, self.txt_telefono, self.txt_direccion]
@@ -65,14 +64,12 @@ class AltaLibreria(QWidget):
         self.layout.addWidget(self.txt_direccion, 6, 2, 1, 2)
         self.layout.addWidget(self.lbl_encargado, 7, 1)
         self.layout.addWidget(self.cmbx_encargado, 7, 2, 1, 2)
-        self.layout.addWidget(self.btn_limpiar, 8, 2)
         self.layout.addWidget(self.btn_agregar, 8, 3)
 
         self.agregar_acciones()        
 
     def agregar_acciones(self):
         self.btn_agregar.clicked.connect(self.accion_btn_agregar)
-        self.btn_limpiar.clicked.connect(self.limpiar_campos)
         self.agregar_datos_cmbx_pais()
         self.cmbx_pais.setCurrentIndex(-1)
         self.cmbx_pais.currentTextChanged.connect(self.llenar_cmbx_ciudad)
@@ -130,12 +127,3 @@ class AltaLibreria(QWidget):
             self.dml_libreria.altas(lib)
 
             DlgAviso(self, "Datos ingresados correctamente")
-
-    def limpiar_campos(self):
-        for c in self.campos:
-            c.setText("")
-        try:
-            for c in self.combos:
-                c.setCurrentIndex(0)
-        except TypeError:
-            pass

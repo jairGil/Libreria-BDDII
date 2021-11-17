@@ -1,4 +1,7 @@
 from PyQt5.QtWidgets import QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QWidget
+from controlador.DMLLibreria import DMLLibreria
+
+from vista.Dialog.DlgAviso import DlgAviso
 
 
 class ConsultaLibreria(QWidget):
@@ -25,8 +28,11 @@ class ConsultaLibreria(QWidget):
         self.btn_limpiar = QPushButton("Limpiar", self)
 
         self.campos = [self.txt_nombre, self.txt_telefono, self.txt_pais, self.txt_ciudad, self.txt_municipio, 
-                        self.txt_direccion, self.txt_encargado, self.btn_limpiar]
+                        self.txt_direccion, self.txt_encargado]
 
+        self.conexion = self.parent().parent().conex
+        self.dml_libreria = DMLLibreria(self.conexion)
+        
         self.setup_ui()
     
     def setup_ui(self):
@@ -62,7 +68,24 @@ class ConsultaLibreria(QWidget):
         self.layout.addWidget(self.btn_limpiar, 9, 3)
 
         self.desactivar_campos()
+        self.btn_limpiar.clicked.connect(self.limpiar_campos)
+        self.btn_buscar.clicked.connect(self.buscar_libreria)
     
+    def buscar_libreria(self):
+        try:
+            id = int(self.txt_id.text())
+            datos = self.dml_libreria.consultas(id)[0]
+            for i, campo in enumerate(self.campos):
+                campo.setText(str(datos[i+1]))
+        except ValueError:
+            DlgAviso(self, "Error, ID no válido")
+        except IndexError:
+            DlgAviso(self, "Libreria no existente")
+
+    def limpiar_campos(self):
+        for campo in self.campos:
+            campo.setText("")
+
     def desactivar_campos(self):
         for campo in self.campos:
             campo.setEnabled(False)

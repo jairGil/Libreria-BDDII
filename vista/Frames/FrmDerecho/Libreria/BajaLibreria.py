@@ -1,4 +1,8 @@
 from PyQt5.QtWidgets import QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QWidget
+import psycopg2
+
+from controlador.DMLLibreria import DMLLibreria
+from vista.Dialog.DlgAviso import DlgAviso
 
 
 class BajaLibreria(QWidget):
@@ -26,7 +30,11 @@ class BajaLibreria(QWidget):
         self.btn_eliminar = QPushButton("Eliminar", self)
 
         self.campos = [self.txt_nombre, self.txt_telefono, self.txt_pais, self.txt_ciudad, self.txt_municipio, 
-                        self.txt_direccion, self.txt_encargado, self.btn_eliminar, self.btn_limpiar]
+                        self.txt_direccion, self.txt_encargado]
+        self.botones = [self.btn_eliminar, self.btn_limpiar]
+        
+        self.conexion = self.parent().parent().conex
+        self.dml_libreria = DMLLibreria(self.conexion)
 
         self.setup_ui()
     
@@ -63,8 +71,40 @@ class BajaLibreria(QWidget):
         self.layout.addWidget(self.btn_limpiar, 9, 2)
         self.layout.addWidget(self.btn_eliminar, 9, 3)
 
+        self.agregar_acciones()
         self.desactivar_campos()
-    
+
+    def agregar_acciones(self):
+        self.btn_buscar.clicked.connect(self.buscar_libreria)
+        self.btn_eliminar.clicked.connect(self.eliminar_libreria)
+        self.btn_limpiar.clicked.connect(self.limpiar_campos)
+
+    def buscar_libreria(self):
+        try:
+            id = int(self.txt_id.text())
+            datos = self.dml_libreria.consultas(id)[0]
+            for i, campo in enumerate(self.campos):
+                campo.setText(str(datos[i+1]))
+        except ValueError:
+            DlgAviso(self, "Error, ID no válido")
+        except IndexError:
+            DlgAviso(self, "Libreria no existente")
+
+    def eliminar_libreria(self):
+        try:
+            id = int(self.txt_id.text())
+            self.dml_libreria.bajas(id)
+            DlgAviso(self, "Libreria eliminada con exito")
+            self.limpiar_campos()
+        except ValueError or TypeError:
+            DlgAviso(self, "Error, ID no válido")
+        except psycopg2.errors.ForeignKeyViolation as e:
+            DlgAviso(self, str(e))
+
+    def limpiar_campos(self):
+        for campo in self.campos:
+            campo.setText("")
+
     def desactivar_campos(self):
         for campo in self.campos:
             campo.setEnabled(False)
