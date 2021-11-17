@@ -90,6 +90,7 @@ CREATE TABLE Editorial (
 
 CREATE TABLE Libreria (
     libreria_id integer,
+    nombre_libreria character varying(150),
     telefono numeric(15) NOT NULL,
     RFC character varying(13) NOT NULL,
     CP numeric(5) NOT NULL,

@@ -1,25 +1,41 @@
 <factura>
-<factura_id>1000000</factura_id>
-<nombre_cliente>Adam Alejandro</nombre_cliente>
-<apellido_paterno_cliente>Sosa</apellido_paterno_cliente>
-<apellido_materno_cliente>Sßnchez</apellido_materno_cliente>
-<fecha>2019-08-01</fecha>
-<compra>
- <libro>
-    <isbn>1107204228115</isbn>
-    <titulo>El conserje que recuerda  y La fabrica y la derrotada</titulo>
-    <precio>392.40</precio>
-    <cantidad>2</cantidad>
-    
-</libro>
-
-<libro>
-<isbn>1121226227113</isbn>
-<titulo>El fontanero y el mosquito  y La espera con un proposito</titulo>
-<precio>1060.43</precio>
-<cantidad>3</cantidad>
-</libro>
-</compra>
+    <factura_id>1000000</factura_id>
+    <nombre_cliente>Adam Alejandro</nombre_cliente>
+    <apellido_paterno>Sosa</apellido_paterno>
+    <apellido_materno>Sßnchez</apellido_materno>
+    <direccion>Senda Las Amapolas  #74873</direccion>
+    <cp>11234</cp>
+    <fecha_compra>2019-08-01</fecha_compra>
+    <compra>
+        <libro>
+            <isbn>1107204228115</isbn
+            ><titulo>El conserje querecuerda  y La fabrica y la derrotada</titulo>
+            <precio>392.40</precio>
+            <cantidad>4</cantidad>
+        </libro>
+        <libro>
+            <isbn>1116227212130</isbn>
+            <titulo>El demonio mas malcriado  y La historia y su sangre</titulo>
+            <precio>1532.81</precio>
+            <cantidad>5</cantidad>
+        </libro>
+        <libro>
+            <isbn>1121219210103</isbn>
+            <titulo>El marco y un gato  y La enemigaderrotada</titulo>
+            <precio>572.14</precio>
+            <cantidad>4</cantidad>
+        </libro>
+        <libro>
+            <isbn>1121226227113</isbn>
+            <titulo>El fontanero y el mosquito  y La espera con un proposito</titulo>
+            <precio>1060.43</precio>
+            <cantidad>1</cantidad>
+        </libro>
+        <libro>
+            <isbn>1122228202101</isbn>
+            <titulo>El mejor genial  y La humanidad sobre el mundo</titulo>
+            <precio>1762.30</precio>
+            <cantidad>3</cantidad>
+        </libro>
+    </compra>
 </factura>
-
-
