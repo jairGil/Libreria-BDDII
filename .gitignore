@@ -1,10 +1,4 @@
 venv/
 Temp
-/contolador/__pycache__
-/vista/__pycache__
-/vista/Dialog/__pycache__
-/vista/Frames/__pycache__
-/vista/Frames/FrmPrincipal/__pycache__
-/vista/Frames/FrmDerecho/__pycache__
-/DB
-respaldo.sql
+*.sql
+*.pyc
