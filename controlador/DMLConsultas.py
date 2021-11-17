@@ -31,6 +31,7 @@ class DMLConsultas:
         encabezados = ["RFC", "Nombre" , "CP", "Direccion"]
         sql =   """ SELECT rfc, concat(nombre_persona, ' ', apellido_paterno, ' ', apellido_materno), cp, direccion 
                     FROM libreria.encargado
+                    ORDER BY cp
                 """
         datos = self.dml.consulta(sql)
         return encabezados, datos

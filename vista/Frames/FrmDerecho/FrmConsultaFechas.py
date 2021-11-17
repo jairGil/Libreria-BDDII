@@ -1,14 +1,13 @@
 from PyQt5.QtCore import QDate, QLocale
-from PyQt5.QtWidgets import QDateEdit, QFrame, QGridLayout, QLabel, QPushButton, QRadioButton, QTableWidget, QTableWidgetItem
-from controlador.Conexion import Conexion
-from controlador.DML import DML
+from PyQt5.QtWidgets import QDateEdit, QFrame, QGridLayout, QLabel, QPushButton, QRadioButton, QTableWidget, QTableWidgetItem, QWidget
+from controlador.DMLReportes import DMLReportes
 
 from vista.Frames.FrmDerecho.Consulta import Consulta
 
 
 class FrmConsultaFechas(QFrame):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, p:QWidget) -> None:
+        super().__init__(parent=p)
         self.gridLayout = QGridLayout(self)
         self.rbtn_dia = QRadioButton("Dia", self)
         self.rbtn_mes = QRadioButton("Mes", self)
@@ -23,7 +22,9 @@ class FrmConsultaFechas(QFrame):
         self.ded_fecha_fin = QDateEdit(self)
         self.btn_buscar = QPushButton("Buscar", self)
 
-        self.tbl_consulta = QTableWidget(self)
+        self.tbl_consulta = Consulta()
+
+        self.dml_reportes = DMLReportes(self.parent().conex)
 
         self.radio_buttons = [self.rbtn_dia, self.rbtn_mes, self.rbtn_anio, self.rbtn_rango]
         self.dates = [self.ded_dia, self.ded_mes, self.ded_anio, self.ded_fecha_inicio, self.ded_fecha_fin]
@@ -56,17 +57,15 @@ class FrmConsultaFechas(QFrame):
         # Añadir la tabla de consultas
         self.gridLayout.addWidget(self.tbl_consulta, 3, 0, 1, 6)
 
-        self.ded_dia.setDate(QDate(2021, 12, 11))
-        self.tbl_consulta.setColumnCount(0)
-        self.tbl_consulta.setRowCount(0)
-
         # Añadir los valores por defecto a cada date edit
         for ded in self.dates:
             ded.setDate(QDate.currentDate())
-            ded.setLocale(QLocale(QLocale.Spanish, QLocale.Mexico))
+            ded.setLocale(QLocale(QLocale.English, QLocale.UnitedStates))
         
         for rbutton in self.radio_buttons:
             rbutton.toggled.connect(self.activa_campos)
+        
+        self.btn_buscar.clicked.connect(self.accion_boton)
 
         self.retranslate_ui()
 
@@ -95,3 +94,17 @@ class FrmConsultaFechas(QFrame):
     def deshabilita_fechas(self):
         for ded in self.dates:
             ded.setEnabled(False)
+
+    def accion_boton(self):
+        if self.rbtn_dia.isChecked():
+            columnas, datos = self.dml_reportes.reporte_dia(self.ded_dia.text())
+            self.tbl_consulta.agrega_datos(columnas, datos)
+        if self.rbtn_mes.isChecked():
+            columnas, datos = self.dml_reportes.reporte_mes(self.ded_mes.text())
+            self.tbl_consulta.agrega_datos(columnas, datos)
+        if self.rbtn_anio.isChecked():
+            columnas, datos = self.dml_reportes.reporte_anio(self.ded_anio.text())
+            self.tbl_consulta.agrega_datos(columnas, datos)
+        if self.rbtn_rango.isChecked():
+            columnas, datos = self.dml_reportes.reporte_personalizado(self.ded_fecha_inicio.text(), self.ded_fecha_fin.text())
+            self.tbl_consulta.agrega_datos(columnas, datos)

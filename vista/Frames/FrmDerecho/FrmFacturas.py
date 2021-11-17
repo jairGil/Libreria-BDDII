@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QFrame, QGridLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
 
-from controlador.DML import DML
 from controlador.DMLFacturas import DMLFacturas
 from vista.Dialog.DlgAviso import DlgAviso
 
@@ -95,7 +94,8 @@ class FrmFacturas(QWidget):
 
     def agregar_detalles(self, detalles: list):
         self.limpiar_factura()
-        total = 0
+        total_pago = 0
+        total_libros = 0
         labels = []
         for libro in detalles:
             titulo = str(libro[0])
@@ -107,7 +107,8 @@ class FrmFacturas(QWidget):
             lbl_cantidad_libro = QLabel(cantidad, self.frm_detalles)
             lbl_subtotal_libro = QLabel(subtotal, self.frm_detalles)
             labels.append((lbl_titulo_libro, lbl_precio_libro, lbl_cantidad_libro, lbl_subtotal_libro))
-            total += float(subtotal)
+            total_pago += float(subtotal)
+            total_libros += int(cantidad)
 
         fila = 3
         for renglon in labels:
@@ -121,11 +122,14 @@ class FrmFacturas(QWidget):
                 columna += 1
             fila += 1
 
-        txt_total = f"${total:.2f}"
+        txt_total = f"${total_pago:.2f}"
+        txt_total_libros = str(total_libros)
         
         lbl_total = QLabel("TOTAL", self.frm_detalles)
         lbl_total_cuenta = QLabel(txt_total, self.frm_detalles)
-        self.layout_detalles.addWidget(lbl_total, fila, 4)
+        lbl_total_libros = QLabel(txt_total_libros, self.frm_detalles)
+        self.layout_detalles.addWidget(lbl_total, fila, 3)
+        self.layout_detalles.addWidget(lbl_total_libros, fila, 4)
         self.layout_detalles.addWidget(lbl_total_cuenta, fila, 5)
 
     def limpiar_factura(self):

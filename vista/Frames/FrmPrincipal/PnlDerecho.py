@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QFrame, QGridLayout, QSpacerItem, QSizePolicy, QStackedWidget, QLabel, QWidget
+from PyQt5.QtWidgets import QFrame, QGridLayout, QStackedWidget, QWidget
 from controlador.Conexion import Conexion
-from controlador.DML import DML
 from vista.Frames.FrmDerecho.Consulta import Consulta
 
 from vista.Frames.FrmDerecho.FrmConsultaFechas import FrmConsultaFechas
@@ -13,9 +12,8 @@ class PnlPrincipalDer(QFrame):
         self.grid_layout = QGridLayout(self)
         self.stack = QStackedWidget(self)
         self.conex = conexion
-        dml = DML(self.conex)
         self.pagina_inicio = QWidget()
-        self.pagina_reportes = FrmConsultaFechas()
+        self.pagina_reportes = FrmConsultaFechas(self)
         self.pagina_facturacion = FrmFacturas(self)
         self.pagina_librerias = Consulta()
         self.pagina_libros = Consulta()
