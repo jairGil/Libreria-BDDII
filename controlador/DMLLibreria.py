@@ -2,14 +2,15 @@ from controlador.Conexion import Conexion
 from controlador.DML import DML
 from modelo.Libreria import Libreria
 
-class DMLPais:
+class DMLLibreria:
     dml: DML
 
     def __init__(self, conexion: Conexion):
         self.dml = DML(conexion)
 
     def altas(self, libreria: Libreria):
-        self.dml.altas_bajas_cambios(f"INSERT INTO Libreria.libreria VALUES({libreria.libreriaId}, {libreria.direccionId}, '{libreria.RFC}', '{libreria.telefono}')")
+        self.dml.altas_bajas_cambios(f"""INSERT INTO libreria.libreria(libreria_id, nombre_libreria, telefono, rfc, cp, direccion) 
+                                        VALUES(nextval('libreria.nextlib'), '{libreria.nombre}', {libreria.telefono_libreria}, '{libreria.RFC}', {libreria.CP}, '{libreria.direccion}')""")
 
     def bajas(self, id: int):
         self.dml.altas_bajas_cambios(f"DELETE FROM Libreria.libreria WHERE libreria_id={id}")

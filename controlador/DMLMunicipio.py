@@ -2,7 +2,7 @@ from controlador.Conexion import Conexion
 from controlador.DML import DML
 from modelo.Municipio import Municipio
 
-class DMLPais:
+class DMLMunicipio:
     dml: DML
 
     def __init__(self, conexion: Conexion):
@@ -17,5 +17,5 @@ class DMLPais:
     def cambios(self, municipio: Municipio):
         self.dml.altas_bajas_cambios(f"UPDATE Libreria.municipio SET nombre_municipio={municipio.nombre_municipio}, ciudad_id={municipio.ciudad} WHERE codigo_postal={municipio.codigo_postal}")
 
-    def consultas(self, txt: str):
-        self.dml.consulta(f"SELECT * FROM Libreria.municipio WHERE codigo_postal like '{txt}'")
+    def consultas(self, id: int):
+        return self.dml.consulta(f"SELECT cp, nombre_municipio, ciudad_id FROM libreria.municipio WHERE ciudad_id = '{id}'")

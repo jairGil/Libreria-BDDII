@@ -49,20 +49,17 @@ class FrmPrincipal(QWidget):
             self.pnl_derecho.stack.setCurrentIndex(2)
         if self.pnl_izquierdo.btn_librerias.isChecked():
             self.pnl_derecho.stack.setCurrentIndex(3)
-            if not self.pnl_derecho.stack.widget(3).datos_mostrados:
-                self.cargar_datos_librerias()
+            self.cargar_datos_librerias()
         if self.pnl_izquierdo.btn_libros.isChecked():
             self.pnl_derecho.stack.setCurrentIndex(4)
-            if not self.pnl_derecho.stack.widget(4).datos_mostrados:
-                self.cargar_datos_libros()
+            self.cargar_datos_libros()
         if self.pnl_izquierdo.btn_encargados.isChecked():
             self.pnl_derecho.stack.setCurrentIndex(5)
-            if not self.pnl_derecho.stack.widget(5).datos_mostrados:
-                self.cargar_datos_encargados()
+            self.cargar_datos_encargados()
     
     def cargar_datos_librerias(self):
         encabezados, datos = self.dml_consultas.get_librerias()
-        self.pnl_derecho.stack.widget(3).agrega_datos(encabezados, datos)
+        self.pnl_derecho.stack.widget(3).reporte.agrega_datos(encabezados, datos)
     
     def cargar_datos_libros(self):
         encabezados, datos = self.dml_consultas.get_libros()

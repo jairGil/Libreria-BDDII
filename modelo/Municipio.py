@@ -4,7 +4,7 @@ class Municipio:
     municipioId: int
     codigo_postal: str
     nombre_municipio : str
-	ciudad: Ciudad
+    ciudad: Ciudad
     
 
     def __init__(self,municipioId: int, codigo_postal: str, nombre_municipio: str, ciudad: Ciudad ) -> None:
