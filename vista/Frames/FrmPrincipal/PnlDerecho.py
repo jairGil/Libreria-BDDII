@@ -4,6 +4,7 @@ from vista.Frames.FrmDerecho.Consulta import Consulta
 
 from vista.Frames.FrmDerecho.FrmConsultaFechas import FrmConsultaFechas
 from vista.Frames.FrmDerecho.FrmFacturas import FrmFacturas
+from vista.Frames.FrmDerecho.FrmInicio import FrmInicio
 from vista.Frames.FrmDerecho.FrmLibreria import FrmLibreria
 
 
@@ -13,7 +14,7 @@ class PnlPrincipalDer(QFrame):
         self.grid_layout = QGridLayout(self)
         self.stack = QStackedWidget(self)
         self.conex = conexion
-        self.pagina_inicio = QWidget()
+        self.pagina_inicio = FrmInicio()
         self.pagina_reportes = FrmConsultaFechas(self)
         self.pagina_facturacion = FrmFacturas(self)
         self.pagina_librerias = FrmLibreria(self)
